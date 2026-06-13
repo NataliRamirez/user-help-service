@@ -1,0 +1,44 @@
+[
+  {
+    "id": "primeros-pasos",
+    "title": "Primeros Pasos",
+    "role": "USER",
+    "keywords": ["inicio", "menú", "menu", "navegación", "dashboard", "centro de ayuda"],
+    "content": "Desde el menú principal puedes acceder al Centro de Ayuda de Qvenly para consultar manuales, buscar información, usar el chatbot o registrar solicitudes de soporte. Si no ves el módulo, revisa que tu sesión esté activa."
+  },
+  {
+    "id": "perfil",
+    "title": "Gestión de perfil",
+    "role": "USER",
+    "keywords": ["perfil", "datos", "contraseña", "password", "correo"],
+    "content": "En el perfil puedes consultar tus datos, editar la información permitida y cambiar tu contraseña siguiendo las validaciones del sistema."
+  },
+  {
+    "id": "gestion-eventos",
+    "title": "Gestión de Eventos",
+    "role": "ORGANIZER",
+    "keywords": ["evento", "crear evento", "actividades", "participantes", "invitaciones"],
+    "content": "El organizador puede crear y administrar eventos, actividades, participantes e invitaciones desde su panel de gestión. Para crear un evento, ingresa al módulo de eventos y selecciona la opción de crear evento."
+  },
+  {
+    "id": "usuarios-roles",
+    "title": "Usuarios y Roles",
+    "role": "ADMIN",
+    "keywords": ["admin", "administrador", "usuarios", "roles", "permisos"],
+    "content": "El administrador puede supervisar usuarios, roles, permisos, planes y solicitudes de soporte disponibles en la plataforma Qvenly."
+  },
+  {
+    "id": "planes-facturacion",
+    "title": "Planes y Facturación",
+    "role": "USER",
+    "keywords": ["plan", "planes", "facturación", "facturacion", "pagos"],
+    "content": "La sección de planes permite consultar información sobre planes disponibles, pagos y facturación según las opciones habilitadas en Qvenly."
+  },
+  {
+    "id": "soporte",
+    "title": "Solicitudes de soporte",
+    "role": "USER",
+    "keywords": ["soporte", "solicitud", "petición", "incidencia", "error"],
+    "content": "Cuando el chatbot no pueda resolver tu consulta, puedes registrar una solicitud de soporte con tipo, prioridad y descripción detallada para recibir ayuda especializada."
+  }
+]

@@ -1,0 +1,90 @@
+spring:
+  application:
+    name: user-help-service
+  cloud:
+    consul:
+      host: ${CONSUL_HOST:localhost}
+      port: ${CONSUL_PORT:8500}
+      discovery:
+        enabled: ${CONSUL_DISCOVERY_ENABLED:true}
+        service-name: ${spring.application.name}
+
+server:
+  port: ${SERVER_PORT:8085}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      show-details: always
+
+qvenly:
+  auth:
+    # Estos headers deben ser propagados por Gateway/Auth Service, no por el frontend.
+    user-id-header: X-Auth-User-Id
+    user-email-header: X-Auth-User-Email
+    user-role-header: X-Auth-User-Role
+  help:
+    support-persistence: in-memory
+    blocked-words:
+      - politica
+      - religión
+      - religion
+      - apuestas
+      - drogas
+      - sexo
+      - violencia
+      - armas
+      - hacking
+      - malware
+      - medicina
+      - finanzas
+      - inversión
+      - inversion
+      - criptomonedas
+    allowed-keywords:
+      - qvenly
+      - evento
+      - eventos
+      - usuario
+      - usuarios
+      - rol
+      - roles
+      - perfil
+      - contraseña
+      - password
+      - login
+      - registro
+      - plan
+      - planes
+      - facturación
+      - facturacion
+      - actividad
+      - actividades
+      - notificación
+      - notificaciones
+      - invitación
+      - invitaciones
+      - participante
+      - participantes
+      - asistente
+      - asistentes
+      - organizador
+      - administrador
+      - admin
+      - jurado
+      - soporte
+      - ayuda
+      - manual
+      - chatbot
+      - solicitud
+      - solicitudes
+      - centro de ayuda
+  gemini:
+    api-key: ${GEMINI_API_KEY:}
+    base-url: ${GEMINI_BASE_URL:https://generativelanguage.googleapis.com/v1beta}
+    model: ${GEMINI_MODEL:gemini-1.5-flash}
+    timeout-seconds: ${GEMINI_TIMEOUT_SECONDS:20}
