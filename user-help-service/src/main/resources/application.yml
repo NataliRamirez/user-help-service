@@ -3,11 +3,13 @@ spring:
     name: user-help-service
   cloud:
     consul:
-      host: ${CONSUL_HOST:localhost}
-      port: ${CONSUL_PORT:8500}
+      enabled: true
+      host: localhost
+      port: 8500
       discovery:
-        enabled: ${CONSUL_DISCOVERY_ENABLED:true}
-        service-name: ${spring.application.name}
+        service-name: user-help-service
+        health-check-path: /actuator/health
+        health-check-interval: 10s
 
 server:
   port: ${SERVER_PORT:8085}
@@ -23,10 +25,9 @@ management:
 
 qvenly:
   auth:
-    # Estos headers deben ser propagados por Gateway/Auth Service, no por el frontend.
-    user-id-header: X-Auth-User-Id
-    user-email-header: X-Auth-User-Email
-    user-role-header: X-Auth-User-Role
+    user-id-header: X-User-Id
+    user-email-header: X-User-Email
+    user-role-header: X-Rol
   help:
     support-persistence: in-memory
     blocked-words:
