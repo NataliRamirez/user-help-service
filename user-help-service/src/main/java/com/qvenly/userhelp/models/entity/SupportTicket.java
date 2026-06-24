@@ -1,10 +1,13 @@
 package com.qvenly.userhelp.models.entity;
 
+import com.qvenly.userhelp.models.dto.SupportResponseDTO;
 import com.qvenly.userhelp.models.enums.SupportPriority;
 import com.qvenly.userhelp.models.enums.SupportStatus;
 import com.qvenly.userhelp.models.enums.SupportType;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class SupportTicket {
@@ -16,6 +19,7 @@ public class SupportTicket {
     private SupportPriority priority;
     private SupportStatus status;
     private String adminResponse;
+    private List<SupportResponseDTO> responses = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
@@ -35,6 +39,7 @@ public class SupportTicket {
         this.adminResponse = adminResponse;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.responses = new ArrayList<>();
     }
 
     public UUID getId() {
@@ -99,6 +104,19 @@ public class SupportTicket {
 
     public void setAdminResponse(String adminResponse) {
         this.adminResponse = adminResponse;
+    }
+
+    public List<SupportResponseDTO> getResponses() {
+        return responses;
+    }
+
+    public void setResponses(List<SupportResponseDTO> responses) {
+        this.responses = responses;
+    }
+
+    public void addResponse(SupportResponseDTO response) {
+        this.responses.add(response);
+        this.adminResponse = response.message();
     }
 
     public LocalDateTime getCreatedAt() {

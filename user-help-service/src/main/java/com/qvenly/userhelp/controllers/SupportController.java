@@ -3,6 +3,7 @@ package com.qvenly.userhelp.controllers;
 import com.qvenly.userhelp.models.dto.AuthenticatedUserDTO;
 import com.qvenly.userhelp.models.dto.CreateSupportTicketDTO;
 import com.qvenly.userhelp.models.dto.SupportReplyRequestDTO;
+import com.qvenly.userhelp.models.dto.SupportResponseDTO;
 import com.qvenly.userhelp.models.dto.SupportTicketResponseDTO;
 import com.qvenly.userhelp.services.AuthUserContextService;
 import com.qvenly.userhelp.services.SupportTicketService;
@@ -55,6 +56,12 @@ public class SupportController {
         AuthenticatedUserDTO user = authUserContextService.currentUser(headers);
         authUserContextService.requireAdmin(user);
         return supportTicketService.findById(id);
+    }
+
+    @GetMapping("/support/{id}/responses")
+    public List<SupportResponseDTO> getResponses(@PathVariable UUID id, @RequestHeader HttpHeaders headers) {
+        AuthenticatedUserDTO user = authUserContextService.currentUser(headers);
+        return supportTicketService.getResponses(id, user);
     }
 
     @PostMapping("/admin/support/{id}/response")

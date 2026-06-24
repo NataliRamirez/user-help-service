@@ -5,9 +5,12 @@ import com.qvenly.userhelp.exceptions.ResourceNotFoundException;
 import com.qvenly.userhelp.models.dto.AuthenticatedUserDTO;
 import com.qvenly.userhelp.models.dto.CreateSupportTicketDTO;
 import com.qvenly.userhelp.models.dto.SupportReplyRequestDTO;
+import com.qvenly.userhelp.models.dto.SupportResponseDTO;
 import com.qvenly.userhelp.models.dto.SupportTicketResponseDTO;
 import com.qvenly.userhelp.models.entity.SupportTicket;
 import com.qvenly.userhelp.models.enums.SupportStatus;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -19,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class SupportTicketService {
+    private static final Logger log = LoggerFactory.getLogger(SupportTicketService.class);
     private final Map<UUID, SupportTicket> tickets = new ConcurrentHashMap<>();
     private final SafetyPolicyService safetyPolicyService;
 
@@ -78,10 +82,29 @@ public class SupportTicketService {
         if (ticket.getStatus() == SupportStatus.RESOLVED && ticket.getAdminResponse() != null) {
             throw new BusinessException("La solicitud ya fue respondida y resuelta");
         }
-        ticket.setAdminResponse(request.response());
+
+        LocalDateTime now = LocalDateTime.now();
+        SupportResponseDTO response = new SupportResponseDTO(request.response(), now, "admin");
+        ticket.addResponse(response);
         ticket.setStatus(SupportStatus.RESOLVED);
-        ticket.setUpdatedAt(LocalDateTime.now());
+        ticket.setUpdatedAt(now);
+
+        // Notificar al usuario (pendiente integración con Notification Service)
+        log.info("EVENTO_NOTIFICACION: Ticket {} respondido - notificar a {} - respuesta: {}",
+                ticketId, ticket.getUserEmail(), request.response());
+
         return toResponse(ticket);
+    }
+
+    public List<SupportResponseDTO> getResponses(UUID ticketId, AuthenticatedUserDTO user) {
+        SupportTicket ticket = getTicket(ticketId);
+        // Solo el dueño del ticket o un admin pueden ver las respuestas
+        if (!ticket.getUserId().equals(user.id()) && !user.role().equals("ADMIN")) {
+            throw new BusinessException("No tienes permiso para consultar las respuestas de este ticket");
+        }
+        return ticket.getResponses().stream()
+                .sorted(Comparator.comparing(SupportResponseDTO::respondedAt).reversed())
+                .toList();
     }
 
     private SupportTicket getTicket(UUID ticketId) {
