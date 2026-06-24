@@ -8,6 +8,7 @@ import com.qvenly.userhelp.models.dto.SupportReplyRequestDTO;
 import com.qvenly.userhelp.models.dto.SupportResponseDTO;
 import com.qvenly.userhelp.models.dto.SupportTicketResponseDTO;
 import com.qvenly.userhelp.models.entity.SupportTicket;
+import com.qvenly.userhelp.models.enums.Role;
 import com.qvenly.userhelp.models.enums.SupportStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -99,7 +100,7 @@ public class SupportTicketService {
     public List<SupportResponseDTO> getResponses(UUID ticketId, AuthenticatedUserDTO user) {
         SupportTicket ticket = getTicket(ticketId);
         // Solo el dueño del ticket o un admin pueden ver las respuestas
-        if (!ticket.getUserId().equals(user.id()) && !user.role().equals("ADMIN")) {
+        if (!ticket.getUserId().equals(user.id()) && user.role() != Role.ADMIN) {
             throw new BusinessException("No tienes permiso para consultar las respuestas de este ticket");
         }
         return ticket.getResponses().stream()
